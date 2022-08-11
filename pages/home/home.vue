@@ -1,5 +1,10 @@
 <template>
   <view>
+    <!-- 使用自定义的搜索组件 -->
+    <view class="search-box">
+      <my-search @click="gotoSearch"/>
+    </view>
+    
     <!-- 轮播图区域 -->
     <swiper indicator-dots autoplay :interval="3000" circular>
       <swiper-item v-for="(item, index) in swiperList" :key="index">
@@ -92,12 +97,23 @@
         })
         
         this.floorList = data.message
+      },
+      // 点击搜索
+      gotoSearch() {
+        uni.navigateTo({url: '/subpkg/search/search'})
       }
     }
   }
 </script>
 
 <style lang="scss">
+  // 搜索框
+  .search-box {
+    position: sticky; // 设置定位效果为 “吸顶”
+    top: 0;
+    z-index: 999;
+  }
+
   // 轮播图区域
   swiper {
     height: 330rpx;

@@ -1,28 +1,34 @@
 <template>
-  <view class="scroll-view-container">
-    <!-- 左侧的滚动视图区域 -->
-    <scroll-view class="left-scroll-view" scroll-y :style="{height: wh + 'px'}">
-      <block v-for="(item, index) in cateList" :key="index">
-        <view :class="['left-scroll-view-item', index === active ? 'active' : '']" @click="activeChanged(index)">
-          {{item.cat_name}}
-        </view>
-      </block>
-    </scroll-view>
-    <!-- 右侧的滚动视图区域 -->
-    <scroll-view class="right-scroll-view" scroll-y :style="{height: wh + 'px'}" :scroll-top="scrollTop">
-      <view class="cate-lv2" v-for="(item, index) in cateLevel2" :key="index">
-        <view class="cate-lv2-title">/ {{item.cat_name}} /</view>
-        <!-- 动态渲染三级分类的列表数据 -->
-        <view class="cate-lv3-list">
-          <view class="cate-lv3-item" v-for="(item2, index2) in item.children" :key="index2" @click="gotoGoodsList(item2)">
-            <!-- 这个图片请求不到 -->
-            <!-- <image :src="item2.cat_icon"></image> -->
-            <image src="../../static/classify.jpeg"></image>
-            <text>{{item2.cat_name}}</text>
+  <view>
+    <!-- 使用自定义的搜索组件 -->
+    <my-search @click="gotoSearch"/>
+
+    <view class="scroll-view-container">
+      <!-- 左侧的滚动视图区域 -->
+      <scroll-view class="left-scroll-view" scroll-y :style="{height: wh + 'px'}">
+        <block v-for="(item, index) in cateList" :key="index">
+          <view :class="['left-scroll-view-item', index === active ? 'active' : '']" @click="activeChanged(index)">
+            {{item.cat_name}}
+          </view>
+        </block>
+      </scroll-view>
+
+      <!-- 右侧的滚动视图区域 -->
+      <scroll-view class="right-scroll-view" scroll-y :style="{height: wh + 'px'}" :scroll-top="scrollTop">
+        <view class="cate-lv2" v-for="(item, index) in cateLevel2" :key="index">
+          <view class="cate-lv2-title">/ {{item.cat_name}} /</view>
+          <!-- 动态渲染三级分类的列表数据 -->
+          <view class="cate-lv3-list">
+            <view class="cate-lv3-item" v-for="(item2, index2) in item.children" :key="index2" @click="gotoGoodsList(item2)">
+              <!-- 这个图片请求不到 -->
+              <!-- <image :src="item2.cat_icon"></image> -->
+              <image src="../../static/classify.jpeg"></image>
+              <text>{{item2.cat_name}}</text>
+            </view>
           </view>
         </view>
-      </view>
-    </scroll-view>
+      </scroll-view>
+    </view>
   </view>
 </template>
 
@@ -30,7 +36,7 @@
   export default {
     data() {
       return {
-        wh: 0, // 窗口的可用高度 = 屏幕高度 - navigationBar 高度 - tabBar 高度
+        wh: 0, // 窗口的可用高度
         cateList: [], // 分类数据列表
         active: 0, // 当前选中项的索引，默认让第一项被选中
         cateLevel2: [], // 二级分类列表
@@ -39,7 +45,7 @@
     },
     onLoad() {
       const sysInfo = uni.getSystemInfoSync() // 获取当前系统的信息
-      this.wh = sysInfo.windowHeight // 为 wh 窗口可用高度动态赋值
+      this.wh = sysInfo.windowHeight - 50 // 屏幕高度 - navigationBar高度 - tabBar高度 - 自定义的search组件高度
       this.getCateList()
     },
     methods: {
@@ -59,6 +65,10 @@
       // 点击三级分类项跳转到商品列表页面
       gotoGoodsList(item2) {
         uni.navigateTo({url: '/subpkg/goods_list/goods_list?cid=' + item2.cat_id})
+      },
+      // 点击搜索
+      gotoSearch() {
+        uni.navigateTo({url: '/subpkg/search/search'})
       }
     }
   }
