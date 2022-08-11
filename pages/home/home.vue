@@ -81,7 +81,6 @@
       },
       // nav-item 项被点击时候的事件处理函数
       navClickHandler(item) {
-        // 判断点击的是哪个 nav
         if (item.name === '分类') uni.switchTab({url: '/pages/cate/cate'})
       },
       // 获取楼层列表

@@ -104,7 +104,7 @@
     .uni-searchbar {
       display: flex;
       position: relative;
-      padding: 8px;
+      padding: 16rpx;
       background-color: #c00000;
     }
   }
