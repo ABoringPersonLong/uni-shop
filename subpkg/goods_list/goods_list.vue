@@ -22,11 +22,27 @@
         isloading: false // 是否正在请求数据
       }
     },
+    methods: {
+      // 获取商品列表
+      async getGoodsList(callback) {
+        this.isloading = true // 打开节流阀
+        const {data} = await uni.$http.get('/api/public/v1/goods/search', this.queryObj)
+        this.isloading = false // 关闭节流阀
+        callback && callback() // callback 存在就调用 callback() 函数
+        if (data.meta.status !== 200) return uni.$showMsg()
+        this.goodsList = [...this.goodsList, ...data.message.goods]
+        this.total = data.message.total
+      },
+      // 点击跳转到商品详情页面
+      gotoDetail(item) {
+        uni.navigateTo({url: '/subpkg/goods_detail/goods_detail?goods_id=' + item.goods_id})
+      }
+    },
     onLoad(options) {
       // 将页面参数转存到 this.queryObj 对象中
       this.queryObj.query = options.query || ''
       this.queryObj.cid = options.cid || ''
-
+    
       this.getGoodsList()
     },
     // 下拉刷新第一页的数据
@@ -46,22 +62,6 @@
       if (this.isloading) return // 判断是否正在请求其它数据，如果是，则不发起额外的请求
       this.queryObj.pagenum += 1
       this.getGoodsList()
-    },
-    methods: {
-      // 获取商品列表
-      async getGoodsList(callback) {
-        this.isloading = true // 打开节流阀
-        const {data} = await uni.$http.get('/api/public/v1/goods/search', this.queryObj)
-        this.isloading = false // 关闭节流阀
-        callback && callback() // callback 存在就调用 callback() 函数
-        if (data.meta.status !== 200) return uni.$showMsg()
-        this.goodsList = [...this.goodsList, ...data.message.goods]
-        this.total = data.message.total
-      },
-      // 点击跳转到商品详情页面
-      gotoDetail(item) {
-        uni.navigateTo({url: '/subpkg/goods_detail/goods_detail?goods_id=' + item.goods_id})
-      }
     }
   }
 </script>

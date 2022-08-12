@@ -9,7 +9,7 @@
 
 <script>
   export default {
-    name: "my-search",
+    name: 'my-search',
     props: {
       bgcolor: {default: '#C00000', type: String}, // 背景颜色
       radius: {default: 18, type: Number} // 圆角尺寸，单位是 px

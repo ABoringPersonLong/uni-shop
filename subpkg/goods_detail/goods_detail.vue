@@ -17,7 +17,7 @@
           <text>收藏</text>
         </view>
       </view>
-      <view class="yf">快递：免运费</view>
+      <view class="yf">快递：免运费 -- {{cart.length}}</view>
     </view>
 
     <!-- 商品详情信息 -->
@@ -31,6 +31,8 @@
 </template>
 
 <script>
+  import {mapState, mapMutations, mapGetters} from 'vuex'
+
   export default {
     data() {
       return {
@@ -60,11 +62,8 @@
         ]
       }
     },
-    onLoad(options) {
-      const goods_id = options.goods_id // 获取商品 Id
-      this.getGoodsDetail(goods_id) // 调用请求商品详情数据的方法
-    },
     methods: {
+      ...mapMutations('moduleCart', ['addToCart']),
       // 获取商品详情数据
       async getGoodsDetail(goods_id) {
         const {data} = await uni.$http.get('/api/public/v1/goods/detail', {goods_id})
@@ -90,8 +89,36 @@
       },
       // 点击右侧按钮组的按钮
       buttonClick({content: {text}}) {
-        console.log(`点击了 “${text}” 按钮`)
+        if (text === '加入购物车') {
+          const goods = { // 组织一个商品的信息对象
+             goods_id: this.goods_info.goods_id, // 商品的Id
+             goods_name: this.goods_info.goods_name, // 商品的名称
+             goods_price: this.goods_info.goods_price, // 商品的价格
+             goods_count: 1, // 商品的数量
+             goods_small_logo: this.goods_info.goods_small_logo, // 商品的图片
+             goods_state: true // 商品的勾选状态
+          }
+          this.addToCart(goods) // 把商品信息对象存储到购物车中
+        }
       }
+    },
+    computed: {
+      ...mapState('moduleCart', ['cart']),
+      ...mapGetters('moduleCart', ['total'])
+    },
+    watch: {
+      // 监听 total 值的变化
+      total: {
+        handler(newVal) {
+          const findResult = this.options.find(item => item.text === '购物车') // 通过数组的 find() 方法，找到购物车按钮的配置对象
+          if (findResult) findResult.info = newVal // 动态为购物车按钮的 info 属性赋值
+        },
+        immediate: true // 在页面初次加载完毕后立即调用
+      }
+    },
+    onLoad(options) {
+      const goods_id = options.goods_id // 获取商品 Id
+      this.getGoodsDetail(goods_id) // 调用请求商品详情数据的方法
     }
   }
 </script>
@@ -148,7 +175,7 @@
 
   // 商品导航组件
   .goods-detail-container {
-    // 给页面外层的容器，添加 50px 的内padding，
+    // 给页面外层的容器，添加 50px 的内 padding
     // 防止页面内容被底部的商品导航组件遮盖
     padding-bottom: 50px;
   }

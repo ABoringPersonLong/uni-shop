@@ -53,18 +53,16 @@
 </template>
 
 <script>
+  import badgeMix from '@/mixins/tabbar-badge.js' // 导入自己封装的 mixin 模块
+  
   export default {
+    mixins: [badgeMix], // 将 badgeMix 混入到当前的页面中进行使用
     data() {
       return {
         swiperList: [], // 轮播图的数据列表
         navList: [], // 分类导航的数据列表
         floorList: [] // 楼层的数据列表
       }
-    },
-    onLoad() {
-      this.getSwiperList()
-      this.getNavList()
-      this.getFloorList()
     },
     methods: {
       // 获取轮播图列表
@@ -101,6 +99,11 @@
       gotoSearch() {
         uni.navigateTo({url: '/subpkg/search/search'})
       }
+    },
+    onLoad() {
+      this.getSwiperList()
+      this.getNavList()
+      this.getFloorList()
     }
   }
 </script>

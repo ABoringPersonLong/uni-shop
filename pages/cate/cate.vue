@@ -33,7 +33,10 @@
 </template>
 
 <script>
+  import badgeMix from '@/mixins/tabbar-badge.js' // 导入自己封装的 mixin 模块
+
   export default {
+    mixins: [badgeMix], // 将 badgeMix 混入到当前的页面中进行使用
     data() {
       return {
         wh: 0, // 窗口的可用高度
@@ -42,11 +45,6 @@
         cateLevel2: [], // 二级分类列表
         scrollTop: 0 // 滚动条距离顶部的距离
       }
-    },
-    onLoad() {
-      const sysInfo = uni.getSystemInfoSync() // 获取当前系统的信息
-      this.wh = sysInfo.windowHeight - 50 // 屏幕高度 - navigationBar高度 - tabBar高度 - 自定义的search组件高度
-      this.getCateList()
     },
     methods: {
       // 获取分类列表
@@ -70,6 +68,11 @@
       gotoSearch() {
         uni.navigateTo({url: '/subpkg/search/search'})
       }
+    },
+    onLoad() {
+      const sysInfo = uni.getSystemInfoSync() // 获取当前系统的信息
+      this.wh = sysInfo.windowHeight - 50 // 屏幕高度 - navigationBar高度 - tabBar高度 - 自定义的search组件高度
+      this.getCateList()
     }
   }
 </script>
