@@ -21,8 +21,7 @@
           <view class="cate-lv3-list">
             <view class="cate-lv3-item" v-for="(item2, index2) in item.children" :key="index2" @click="gotoGoodsList(item2)">
               <!-- 这个图片请求不到 -->
-              <!-- <image :src="item2.cat_icon"></image> -->
-              <image src="../../static/classify.jpeg"></image>
+              <image :src="item2.cat_icon"></image>
               <text>{{item2.cat_name}}</text>
             </view>
           </view>
