@@ -4,7 +4,7 @@
     <view class="search-box">
       <my-search @click="gotoSearch"/>
     </view>
-    
+
     <!-- 轮播图区域 -->
     <swiper indicator-dots autoplay :interval="3000" circular>
       <swiper-item v-for="(item, index) in swiperList" :key="index">
@@ -13,14 +13,14 @@
         </navigator>
       </swiper-item>
     </swiper>
-    
+
     <!-- 分类导航区域 -->
     <view class="nav-list">
       <view class="nav-item" v-for="(item, index) in navList" :key="index" @click="navClickHandler(item)">
         <image :src="item.image_src" class="nav-img"></image>
       </view>
     </view>
-    
+
     <!-- 楼层区域 -->
     <view class="floor-list">
       <view class="floor-item" v-for="(item, index) in floorList" :key="index">
@@ -54,7 +54,7 @@
 
 <script>
   import badgeMix from '@/mixins/tabbar-badge.js' // 导入自己封装的 mixin 模块
-  
+
   export default {
     mixins: [badgeMix], // 将 badgeMix 混入到当前的页面中进行使用
     data() {
@@ -85,14 +85,14 @@
       async getFloorList() {
         const {data} = await uni.$http.get('/api/public/v1/home/floordata')
         if (data.meta.status !== 200) return uni.$showMsg()
-        
+
         // 通过双层 forEach 循环，添加 url 属性
         data.message.forEach(floor => {
           floor.product_list.forEach(prod => {
             prod.url = `/subpkg/goods_list/goods_list?${prod.navigator_url.split('?')[1]}`
           })
         })
-        
+
         this.floorList = data.message
       },
       // 点击搜索
@@ -126,7 +126,7 @@
       height: 100%;
     }
   }
-  
+
   // 分类导航区域
   .nav-list {
     display: flex;
@@ -138,7 +138,7 @@
       height: 140rpx;
     }
   }
-  
+
   // 楼层区域
   .floor-list {
     // 楼层标题
@@ -152,7 +152,7 @@
     .floor-img-box {
       display: flex;
       padding-left: 10rpx;
-      
+
       // 右侧 4 个小图片的盒子
       .right-img-box {
         display: flex;

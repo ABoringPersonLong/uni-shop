@@ -5,12 +5,12 @@
       <radio color="#C00000" :checked="isFullCheck"/>
       <text>全选</text>
     </label>
-  
+
     <!-- 合计区域 -->
     <view class="amount-box">
       合计:<text class="amount">￥{{checkedGoodsAmount}}</text>
     </view>
-  
+
     <!-- 结算按钮 -->
     <view class="btn-settle" @click="settlement">结算({{checkedCount}})</view>
   </view>
