@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LongYuhuanGithub/uni-shop.git"
+    "url": "git+https://github.com/ABoringPersonLong/uni-shop.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/LongYuhuanGithub/uni-shop/issues"
+    "url": "https://github.com/ABoringPersonLong/uni-shop/issues"
   },
-  "homepage": "https://github.com/LongYuhuanGithub/uni-shop#readme",
+  "homepage": "https://github.com/ABoringPersonLong/uni-shop#readme",
   "dependencies": {
     "@escook/request-miniprogram": "^0.2.1"
   }
